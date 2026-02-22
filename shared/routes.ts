@@ -23,10 +23,20 @@ export const api = {
         200: z.array(z.custom<typeof confessions.$inferSelect>()),
       },
     },
+    random: {
+      method: "GET" as const,
+      path: "/api/confessions/random" as const,
+      responses: {
+        200: z.custom<typeof confessions.$inferSelect>(),
+        404: errorSchemas.notFound,
+      },
+    },
     create: {
       method: "POST" as const,
       path: "/api/confessions" as const,
-      input: insertConfessionSchema,
+      input: insertConfessionSchema.extend({
+        judgeMood: z.enum(["good", "suspicious", "angry"]).optional(),
+      }),
       responses: {
         201: z.custom<typeof confessions.$inferSelect>(),
         400: errorSchemas.validation,
@@ -35,22 +45,19 @@ export const api = {
     addReaction: {
       method: "POST" as const,
       path: "/api/confessions/:id/reaction" as const,
-      input: z.object({ type: z.enum(["laugh", "cry", "facepalm"]) }), // In reality we'll just increment likes, but UI can send type
+      input: z.object({ type: z.enum(["laugh", "cry", "facepalm"]) }),
       responses: {
         200: z.custom<typeof confessions.$inferSelect>(),
         404: errorSchemas.notFound,
       },
     },
-    generateJudgment: {
-      method: "POST" as const,
-      path: "/api/generate-judgment" as const,
-      input: z.object({
-        content: z.string().min(1, "Confession cannot be empty"),
-        persona: z.string(),
-      }),
+  },
+  stats: {
+    dailyCount: {
+      method: "GET" as const,
+      path: "/api/stats/daily-count" as const,
       responses: {
-        200: z.object({ judgment: z.string() }),
-        400: errorSchemas.validation,
+        200: z.object({ count: z.number() }),
       },
     },
   },
@@ -70,11 +77,3 @@ export function buildUrl(
   }
   return url;
 }
-
-export type ConfessionInput = z.infer<typeof api.confessions.create.input>;
-export type ConfessionResponse = z.infer<
-  typeof api.confessions.create.responses[201]
->;
-export type TrendingConfessionsResponse = z.infer<
-  typeof api.confessions.listTrending.responses[200]
->;
