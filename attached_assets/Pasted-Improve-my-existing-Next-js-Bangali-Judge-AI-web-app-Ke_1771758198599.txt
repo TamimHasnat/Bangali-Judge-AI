@@ -1,0 +1,53 @@
+Improve my existing Next.js “Bangali Judge AI” web app. Keep current features and styling but fix bugs and upgrade the experience.
+
+1. Fix disappearing result bug
+   After clicking “Generate Meme” the judgement/result section must NOT disappear.
+   Do not regenerate the AI response.
+   Store confession and judgement in persistent React state (page level useState or context).
+   The meme generator must use the already displayed text.
+   Ensure the Generate Meme button does not submit a form or refresh the page (type="button", preventDefault).
+
+2. Add a funny processing screen
+   After user submits a confession, show a 3 to 4 second animated loading screen before the result appears.
+   Display changing Bangla messages such as:
+   “মামলা নথিভুক্ত করা হচ্ছে”
+   “খালাম্মাকে ডাকা হচ্ছে”
+   “প্রতিবেশীরা জড়ো হচ্ছে”
+   “বিচারক চা খাচ্ছেন”
+   Use typing or loading animation, then reveal the judgement card.
+
+3. Upgrade the judgement card UI
+   Turn the result into a social media style card. Include:
+   Random judge avatar
+   Judge name examples: খালাম্মা পারভীন, পাড়া বড়ভাই, মসজিদের হুজুর, অভিজ্ঞ আপু
+   Current date and time
+   A verdict stamp badge: দোষী, সন্দেহভাজন, লজ্জাজনক, সমাজের জন্য হুমকি
+   Keep confession on top and AI judgement below.
+
+4. Improve meme generator
+   Generate a square 1080x1080 image using canvas that matches the judgement card design.
+   Include: confession, judgement, judge name, verdict stamp, watermark “Bangali Judge AI – পাড়ার সালিশ”.
+   Add soft random background colors and a border.
+   Buttons: Download Meme (PNG) and Copy Text.
+   The page UI must remain visible after generating the meme.
+
+5. Add sharing
+   Add a WhatsApp share button that shares confession + judgement + website link.
+
+6. Add engagement features
+   Below the judgement add:
+   “পাড়া প্রতিবেশীর মন্তব্য” section with 3 short funny neighbor comments (random each refresh).
+   A Red Flag Score progress bar (0 to 100) with a humorous explanation.
+
+7. Header improvements
+   Add a scrolling notice bar at the top showing random funny Bangla notices:
+   “আজ প্রেম সংক্রান্ত মামলা গ্রহণযোগ্য নয়”
+   “বিচারক আজ খারাপ মুডে আছেন”
+   “ওয়াইফাই স্লো থাকলে বিচার বিলম্বিত হবে”
+
+Also add a Judge Mood indicator in the header with random moods:
+ভালো মুড / সন্দেহ মুড / রাগান্বিত খালা
+Pass this mood into the AI prompt so the response tone changes.
+
+Ensure everything is responsive, mobile friendly, and lightweight.
+Fix any build or runtime errors without removing features.
