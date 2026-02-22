@@ -1,38 +1,38 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { db } from "./db";
+import { confessions, type Confession, type InsertConfession } from "@shared/schema";
+import { desc, eq, sql } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  createConfession(confession: InsertConfession, judgment: string): Promise<Confession>;
+  getTrendingConfessions(): Promise<Confession[]>;
+  addReaction(id: number): Promise<Confession | undefined>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+export class DatabaseStorage implements IStorage {
+  async createConfession(insertConfession: InsertConfession, judgment: string): Promise<Confession> {
+    const [confession] = await db
+      .insert(confessions)
+      .values({ ...insertConfession, judgment })
+      .returning();
+    return confession;
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async getTrendingConfessions(): Promise<Confession[]> {
+    return await db
+      .select()
+      .from(confessions)
+      .orderBy(desc(confessions.likes), desc(confessions.createdAt))
+      .limit(20);
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async addReaction(id: number): Promise<Confession | undefined> {
+    const [updated] = await db
+      .update(confessions)
+      .set({ likes: sql`${confessions.likes} + 1` })
+      .where(eq(confessions.id, id))
+      .returning();
+    return updated;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
