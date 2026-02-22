@@ -77,3 +77,7 @@ export function buildUrl(
   }
   return url;
 }
+
+export type ConfessionInput = z.infer<typeof api.confessions.create.input>;
+export type ConfessionResponse = z.infer<typeof api.confessions.create.responses[201]>;
+export type TrendingConfessionsResponse = z.infer<typeof api.confessions.listTrending.responses[200]>;

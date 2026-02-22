@@ -11,30 +11,30 @@ export type Persona = {
 export const PERSONAS: Persona[] = [
   {
     id: "khalamma",
-    name: "Nosy Khalamma",
+    name: "খালার সালিশ",
     icon: "🥻",
-    desc: "Judging your life choices",
+    desc: "সবজান্তা খালাম্মা",
     color: "bg-primary text-primary-foreground",
   },
   {
     id: "hujur",
-    name: "Strict Hujur",
+    name: "হুজুর মোড",
     icon: "🕌",
-    desc: "Everything is haram",
+    desc: "সবই নাজায়েজ",
     color: "bg-secondary text-secondary-foreground",
   },
   {
     id: "toxic_boro_bhai",
-    name: "Toxic Boro Bhai",
+    name: "টক্সিক বড় ভাই",
     icon: "🕶️",
-    desc: "Pera nai chill",
+    desc: "এলাকার ডন",
     color: "bg-accent text-accent-foreground",
   },
   {
     id: "relationship_expert",
-    name: "Love Guru",
+    name: "রিলেশনশিপ এক্সপার্ট",
     icon: "💔",
-    desc: "Single since birth",
+    desc: "ছ্যাকা খাওয়া বিশেষজ্ঞ",
     color: "bg-purple-500 text-white",
   },
 ];
